@@ -10,7 +10,6 @@ services:
     volumes:
       - ./migrations:/migrations
     environment:
-      GOOSE_MIGRATION_DIR: '/migrations'
       GOOSE_DBSTRING: "host=postgres user=root password=root dbname=users sslmode=disable"
     command: up
 ```

@@ -25,6 +25,8 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 \
 
 FROM scratch
 
+WORKDIR /migrations
+
 COPY --from=builder /go/bin/goose /go/bin/goose
 
 EXPOSE 8000
