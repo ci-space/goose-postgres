@@ -1,3 +1,3 @@
 .PHONY: build
 build:
-	docker build -t ci-space/goose-postgres .
+	docker build -t cispace/goose-postgres .

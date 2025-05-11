@@ -29,4 +29,6 @@ COPY --from=builder /go/bin/goose /go/bin/goose
 
 EXPOSE 8000
 
+ENV GOOSE_DRIVER=postgres
+
 ENTRYPOINT ["/go/bin/goose"]

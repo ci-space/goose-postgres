@@ -41,4 +41,4 @@ jobs:
           build-args: |
             GOOSE_VERSION=${{ steps.values.outputs.version_full}}
           tags: |
-            ci-space/goose-postgres:${{ steps.values.outputs.version_full}}
+            cispace/goose-postgres:${{ steps.values.outputs.version_full}}
