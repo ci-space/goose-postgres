@@ -32,6 +32,9 @@ jobs:
         name: Determine release is new
         run: echo "state={{ steps.self_version.outputs.release != '' && 'false' || 'true' }}" >> "$GITHUB_OUTPUT"
 
+      - name: Print output
+        run: cat $GITHUB_OUTPUT
+
   test:
     name: Test build new release
     runs-on: ubuntu-latest
