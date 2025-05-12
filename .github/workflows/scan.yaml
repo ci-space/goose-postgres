@@ -12,7 +12,7 @@ jobs:
         uses: actions/checkout@v3
 
       - id: goose_last_version
-        name: Get list goose version
+        name: Get last goose version
         uses: pozetroninc/github-action-get-latest-release@v0.8.0
         with:
           repository: pressly/goose
@@ -20,7 +20,8 @@ jobs:
       - name: Check exists release in goose-postgres
         uses: joutvhu/get-release@v1
         with:
-          tag_name: ${{ steps.goose_last_version.outputs.release }}
+          tag_name: v3.24.0
+          #tag_name: ${{ steps.goose_last_version.outputs.release }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
