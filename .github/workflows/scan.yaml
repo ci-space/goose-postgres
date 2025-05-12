@@ -15,10 +15,9 @@ jobs:
     steps:
       - id: goose_last_version
         name: Get last goose version
-        run: echo "release=v3.24.0" >> "$GITHUB_OUTPUT"
-#        uses: pozetroninc/github-action-get-latest-release@v0.8.0
-#        with:
-#          repository: pressly/goose
+        uses: pozetroninc/github-action-get-latest-release@v0.8.0
+        with:
+          repository: pressly/goose
 
       - id: self_version
         name: Check exists release in goose-postgres
@@ -45,3 +44,20 @@ jobs:
 
       - name: Run tests on new goose version
         run: make test GOOSE_VERSION=${{ needs.scan.outputs.goose_version }}
+
+  release:
+    name: Create release
+    runs-on: ubuntu-latest
+    needs: [scan, test]
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Create Tag
+        uses: joutvhu/create-tag@v1
+        with:
+          tag_name: ${{ needs.scan.outputs.goose_version }}
+          on_tag_exists: error
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
