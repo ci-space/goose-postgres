@@ -2,6 +2,8 @@ name: scan goose new release
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: "0 23 * * *"
 
 jobs:
   scan:
