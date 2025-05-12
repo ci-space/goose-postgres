@@ -17,5 +17,12 @@ jobs:
         with:
           repository: pressly/goose
 
+      - name: Check exists release in goose-postgres
+        uses: joutvhu/get-release@v1
+        with:
+          tag_name: ${{ steps.goose_last_version.outputs.release }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Run tests on new goose version
         run: make test GOOSE_VERSION=${{ steps.goose_last_version.outputs.release }}
