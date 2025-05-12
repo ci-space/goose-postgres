@@ -1,11 +1,11 @@
-name: scan goose's new release
+name: scan goose new release
 
 on:
   workflow_dispatch:
 
 jobs:
-  docker:
-    name: Build docker image
+  scan:
+    name: Scan Goose new release
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
