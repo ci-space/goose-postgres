@@ -30,9 +30,9 @@ jobs:
       - id: is_new_release
         name: Determine release is new
         run: |
-          echo "-> self release: ${{ steps.self_version.outputs.release }}"
-          echo "-> release is new: ${{ steps.self_version.outputs.release != '' && 'false' || 'true' }}" 
-          echo "state=${{ steps.self_version.outputs.release != '' && 'false' || 'true' }}" >> "$GITHUB_OUTPUT"
+          echo "-> self release: ${{ steps.self_version.outputs.tag_name }}"
+          echo "-> release is new: ${{ steps.self_version.outputs.tag_name != '' && 'false' || 'true' }}" 
+          echo "state=${{ steps.self_version.outputs.tag_name != '' && 'false' || 'true' }}" >> "$GITHUB_OUTPUT"
 
   test:
     name: Test build new release
