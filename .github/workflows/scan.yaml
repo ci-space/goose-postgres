@@ -36,10 +36,10 @@ jobs:
     name: Test build new release
     runs-on: ubuntu-latest
     needs: [scan]
-    if: ${{ needs.scan.is_new_release == 'true' }}
+    if: ${{ needs.scan.outputs.is_new_release == 'true' }}
     steps:
       - name: Check out code
         uses: actions/checkout@v3
 
       - name: Run tests on new goose version
-        run: make test GOOSE_VERSION=${{ needs.scan.goose_version }}
+        run: make test GOOSE_VERSION=${{ needs.scan.outputs.goose_version }}
