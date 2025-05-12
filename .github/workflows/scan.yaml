@@ -15,7 +15,7 @@ jobs:
     steps:
       - id: goose_last_version
         name: Get last goose version
-        run: echo "release=v3.24.0" >> "$GITHUB_OUTPUT"
+        run: echo "id=v3.24.0" >> "$GITHUB_OUTPUT"
 #        uses: pozetroninc/github-action-get-latest-release@v0.8.0
 #        with:
 #          repository: pressly/goose
