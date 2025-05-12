@@ -1,0 +1,21 @@
+name: scan goose's new release
+
+on:
+  workflow_dispatch:
+
+jobs:
+  docker:
+    name: Build docker image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - id: goose_last_version
+        name: Get list goose version
+        uses: pozetroninc/github-action-get-latest-release@v0.8.0
+        with:
+          repository: pressly/goose
+
+      - name: Run tests on new goose version
+        run: make test
