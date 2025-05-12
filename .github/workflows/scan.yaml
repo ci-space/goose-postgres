@@ -15,9 +15,10 @@ jobs:
     steps:
       - id: goose_last_version
         name: Get last goose version
-        uses: pozetroninc/github-action-get-latest-release@v0.8.0
-        with:
-          repository: pressly/goose
+        run: echo "release=v3.24.0" >> "$GITHUB_OUTPUT"
+#        uses: pozetroninc/github-action-get-latest-release@v0.8.0
+#        with:
+#          repository: pressly/goose
 
       - id: self_version
         name: Check exists release in goose-postgres
