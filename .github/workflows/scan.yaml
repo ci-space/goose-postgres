@@ -18,4 +18,4 @@ jobs:
           repository: pressly/goose
 
       - name: Run tests on new goose version
-        run: make test
+        run: make test GOOSE_VERSION=${{ steps.goose_last_version.outputs.release }}
