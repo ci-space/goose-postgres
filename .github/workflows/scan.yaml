@@ -2,20 +2,65 @@ name: scan goose new release
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: "0 23 * * *"
 
 jobs:
   scan:
     name: Scan Goose new release
     runs-on: ubuntu-latest
-    steps:
-      - name: Check out code
-        uses: actions/checkout@v3
 
+    outputs:
+      goose_version: ${{ steps.goose_last_version.outputs.release }}
+      is_new_release: ${{ steps.is_new_release.outputs.state }}
+
+    steps:
       - id: goose_last_version
-        name: Get list goose version
+        name: Get last goose version
         uses: pozetroninc/github-action-get-latest-release@v0.8.0
         with:
           repository: pressly/goose
 
+      - id: self_version
+        name: Check exists release in goose-postgres
+        uses: joutvhu/get-release@v1
+        with:
+          tag_name: ${{ steps.goose_last_version.outputs.release }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - id: is_new_release
+        name: Determine release is new
+        run: |
+          echo "-> self release: ${{ steps.self_version.outputs.tag_name }}"
+          echo "-> release is new: ${{ steps.self_version.outputs.tag_name != '' && 'false' || 'true' }}" 
+          echo "state=${{ steps.self_version.outputs.tag_name != '' && 'false' || 'true' }}" >> "$GITHUB_OUTPUT"
+
+  test:
+    name: Test build new release
+    runs-on: ubuntu-latest
+    needs: [scan]
+    if: ${{ needs.scan.outputs.is_new_release == 'true' }}
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
       - name: Run tests on new goose version
-        run: make test GOOSE_VERSION=${{ steps.goose_last_version.outputs.release }}
+        run: make test GOOSE_VERSION=${{ needs.scan.outputs.goose_version }}
+
+  release:
+    name: Create release
+    runs-on: ubuntu-latest
+    needs: [scan, test]
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Create Tag
+        uses: joutvhu/create-tag@v1
+        with:
+          tag_name: ${{ needs.scan.outputs.goose_version }}
+          on_tag_exists: error
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
