@@ -10,7 +10,7 @@ jobs:
 
     outputs:
       goose_version: ${{ steps.goose_last_version.outputs.release }}
-      is_new_release: $${ steps.is_new_release.outputs.state }}
+      is_new_release: ${{ steps.is_new_release.outputs.state }}
 
     steps:
       - id: goose_last_version
