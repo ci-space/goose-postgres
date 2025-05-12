@@ -30,10 +30,9 @@ jobs:
 
       - id: is_new_release
         name: Determine release is new
-        run: echo "state={{ steps.self_version.outputs.release != '' && 'false' || 'true' }}" >> "$GITHUB_OUTPUT"
-
-      - name: Print output
-        run: cat $GITHUB_OUTPUT
+        run: |
+          echo "release is new: {{ steps.self_version.outputs.release != '' && 'false' || 'true' }}" 
+          echo "state={{ steps.self_version.outputs.release != '' && 'false' || 'true' }}" >> "$GITHUB_OUTPUT"
 
   test:
     name: Test build new release
