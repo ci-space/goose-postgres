@@ -57,10 +57,15 @@ jobs:
       contents: write
 
     steps:
-      - name: Create Tag
-        uses: joutvhu/create-tag@v1
+      - name: Create Release
+        uses: joutvhu/create-release@v1
         with:
           tag_name: ${{ needs.scan.outputs.goose_version }}
-          on_tag_exists: error
+          name: ${{ needs.scan.outputs.goose_version }}
+          on_release_exists: error
+          draft: false
+          prerelease: false
+          body: |
+            See the release in the goose repository: https://github.com/pressly/goose/releases/tag/${{ needs.scan.outputs.goose_version }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_RELEASE_USER_TOKEN }}
